@@ -1,14 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-
-var MasonryGallery = React.createClass({
-  render: function() {
-    return(
-      <div>Hey hey</div>
-    )
-  }
-})
+var PostIndex = require('./components/photos/photo_index');
 
 document.addEventListener('DOMContentLoaded', function() {
-  ReactDOM.render(<MasonryGallery/>, document.getElementById('react-block'));
+  ReactDOM.render(<PostIndex/>, document.getElementById('react-block'));
 })

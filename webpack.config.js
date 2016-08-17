@@ -1,6 +1,6 @@
 module.exports = {
   context: __dirname,
-  entry: "./gallery.jsx",
+  entry: "./masonry_gallery.jsx",
   output: {
     path: "./",
     filename: "bundle.js"
@@ -12,7 +12,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react']
         }
       }
     ]
