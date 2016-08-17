@@ -4,7 +4,7 @@ var ClientActions = require('../../actions/client_actions');
 var PhotoItem = React.createClass({
   getInitialState: function() {
     return({
-      liked: true
+      liked: false
     })
   },
   handleClick: function() {
