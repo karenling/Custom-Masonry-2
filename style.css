@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+.img-item {
+  position: relative;
+  float: left;
+}
+.img-item img {
+  display: block;
+}
+.img-desc {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

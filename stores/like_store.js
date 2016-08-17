@@ -19,7 +19,7 @@ LikeStore.__onDispatch = function(payload) {
 };
 
 var updateLikes = function(status) {
-  _totalLikes += (status ? 1 : -1);
+  _totalLikes += (status ? -1 : 1);
 };
 
 module.exports = LikeStore;
