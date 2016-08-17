@@ -2,12 +2,14 @@ var React = require('react');
 var PhotoStore = require('../../stores/photo_store');
 var ClientActions = require('../../actions/client_actions');
 var PhotoItem = require('./photo_item');
+var TopBar = require('../topbar/topbar');
+
 var $ = require('jquery');
 
 var PhotoIndex = React.createClass({
   getInitialState: function() {
     return({
-      photos: PhotoStore.all(),
+      photos: PhotoStore.all()
     })
   },
   componentDidMount: function() {
@@ -34,6 +36,7 @@ var PhotoIndex = React.createClass({
   render: function() {
     return(
       <div>
+        <TopBar/>
         {this.state.photos.map(function(photo) {
           return(
             <PhotoItem
