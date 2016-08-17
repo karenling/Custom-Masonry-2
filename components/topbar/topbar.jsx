@@ -1,21 +1,21 @@
 var React = require('react');
-var PhotoStore = require('../../stores/photo_store');
+var LikeStore = require('../../stores/like_store');
 
 var TopBar = React.createClass({
   getInitialState: function() {
     return({
-      totalLikes: PhotoStore.totalLikes()
+      totalLikes: LikeStore.totalLikes()
     })
   },
   componentDidMount: function() {
-    this.listener = PhotoStore.addListener(this._onChange);
+    this.listener = LikeStore.addListener(this._onChange);
   },
   componentWillUnmount: function() {
     this.listener.remove();
   },
   _onChange: function() {
     this.setState({
-      totalLikes: PhotoStore.totalLikes()
+      totalLikes: LikeStore.totalLikes()
     })
   },
   render: function() {

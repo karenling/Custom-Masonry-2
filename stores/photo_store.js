@@ -1,16 +1,11 @@
 var Store = require ('flux/utils').Store;
 var dispatcher = require('../dispatcher/dispatcher');
 var PhotoStore = new Store(dispatcher);
-var PhotoConstants = require('../constants/photo_constants')
+var PhotoConstants = require('../constants/photo_constants');
 
 var _photos = [];
 var _currentPage = 0;
 var _totalPages = 1000;
-var _totalLikes = 0;
-
-PhotoStore.totalLikes = function() {
-  return _totalLikes;
-};
 
 PhotoStore.all = function() {
   return _photos;
@@ -32,10 +27,6 @@ PhotoStore.__onDispatch = function(payload) {
       updateTotalPages(payload.photos.total_pages);
       PhotoStore.__emitChange();
       break;
-    case PhotoConstants.PHOTO_LIKED:
-      updateLikes(payload.value);
-      PhotoStore.__emitChange();
-      break;
   }
 };
 
@@ -50,9 +41,5 @@ var updateCurrentPage = function(page) {
 var updateTotalPages = function(totalPages) {
   _totalPages = totalPages;
 };
-
-var updateLikes = function(status) {
-  _totalLikes += (status ? 1 : -1);
-}
 
 module.exports = PhotoStore;

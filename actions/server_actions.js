@@ -1,6 +1,6 @@
 var dispatcher = require('../dispatcher/dispatcher');
-var Store = require('../stores/photo_store');
 var PhotoConstants = require('../constants/photo_constants');
+var LikeConstants = require('../constants/like_constants');
 
 var ServerActions = {
   receiveAllPhotos: function(photos) {
@@ -11,7 +11,7 @@ var ServerActions = {
   },
   receiveLike: function(value) {
     dispatcher.dispatch({
-      actionType: PhotoConstants.PHOTO_LIKED,
+      actionType: LikeConstants.PHOTO_LIKED,
       value: value
     });
   }
