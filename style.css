@@ -61,8 +61,8 @@ body {
   cursor: pointer;
   opacity:0;
   filter: alpha(opacity=0);
-  -webkit-transition: opacity 2s ease-in, width 400ms ease-in;
-  transition: opacity 2s ease-in, width 400ms ease-in;
+  -webkit-transition: opacity 2s ease-in;
+  transition: opacity 2s ease-in;
 }
 .img-item.loaded-true {
   opacity: 1;
