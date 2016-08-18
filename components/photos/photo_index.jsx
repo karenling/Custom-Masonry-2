@@ -38,22 +38,27 @@ var PhotoIndex = React.createClass({
   },
   detectBottom: function() {
     $(window).scroll(function() {
-      if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+      if ($(window).scrollTop() + 60 > $(document).height() - $(window).height()) {
         ClientActions.fetchPopularPhotos(PhotoStore.nextPage());
       }
     })
   },
   render: function() {
     return(
-      <div id='karen-masonry'>
-        {this.state.photos.map(function(photo) {
-          return(
-            <PhotoItem
-              key={photo.id}
-              photo={photo}
-            />
-          )
-        }.bind(this))}
+      <div>
+        <div id='karen-masonry' className='clearfix'>
+          {this.state.photos.map(function(photo) {
+            return(
+              <PhotoItem
+                key={photo.id}
+                photo={photo}
+              />
+            )
+          }.bind(this))}
+        </div>
+        <div className='loader'>
+          <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
       </div>
     )
   }

@@ -5,7 +5,8 @@ var $ = require('jquery');
 var PhotoItem = React.createClass({
   getInitialState: function() {
     return({
-      liked: false
+      liked: false,
+      loaded: false
     })
   },
   handleClick: function() {
@@ -21,13 +22,19 @@ var PhotoItem = React.createClass({
       return 'fa-heart-o'
     }
   },
+  opacity: function(e) {
+    this.setState({
+      loaded: true
+    })
+  },
   render: function() {
     return(
       <article
-        className={'img-item liked-' + this.state.liked }
+        className={'img-item liked-' + this.state.liked + ' loaded-' + this.state.loaded}
         onClick={this.handleClick}
         onMouseOver={this.toggleViews}>
         <img
+          onLoad={this.opacity}
           data-ratio={this.props.photo.width / this.props.photo.height}
           alt={this.props.photo.name}
           src={this.props.photo.image_url}
