@@ -3,6 +3,7 @@ var dispatcher = require('../dispatcher/dispatcher');
 var PhotoStore = new Store(dispatcher);
 var PhotoConstants = require('../constants/photo_constants');
 
+var _uniquePhotos = {};
 var _photos = [];
 var _currentPage = 0;
 var _totalPages = 1000;
@@ -31,7 +32,12 @@ PhotoStore.__onDispatch = function(payload) {
 };
 
 var resetPhotos = function(photos) {
-  _photos = _photos.concat(photos);
+  photos.forEach(function(photo) {
+    if (!_uniquePhotos.hasOwnProperty(photo.id)) {
+      _uniquePhotos[photo.id] = photo;
+      _photos.push(photo);
+    }
+  });
 };
 
 var updateCurrentPage = function(page) {
