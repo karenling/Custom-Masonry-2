@@ -25,7 +25,7 @@ var resizeRow = function(currentImages, currentRow, height, padding) {
     var ratio = $(currentImg).data('ratio');
     $(currentImg).parent().width(height * ratio);
     $(currentImg).parent().height(height);
-    $(currentImg).parent().css('margin', padding/2);
+    $(currentImg).parent().css('padding', padding/2);
   });
 };
 
@@ -41,6 +41,6 @@ var ratioMax = function() {
 
 KarenMasonry = function(selector, padding) {
   var containerWidth = $(selector).width();
-  $(selector).css('margin', padding/2);
+  $(selector).css('padding', padding/2);
   masonry(selector, padding);
 };

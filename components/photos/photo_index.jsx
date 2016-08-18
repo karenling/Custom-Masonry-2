@@ -29,7 +29,7 @@ var PhotoIndex = React.createClass({
     this.updateGrid();
   },
   updateGrid: function() {
-    KarenMasonry('#react-block', 10)
+    KarenMasonry('#karen-masonry', 10)
   },
   _onChange: function() {
     this.setState({
@@ -45,7 +45,7 @@ var PhotoIndex = React.createClass({
   },
   render: function() {
     return(
-      <div className='karen-masonry'>
+      <div id='karen-masonry'>
         {this.state.photos.map(function(photo) {
           return(
             <PhotoItem

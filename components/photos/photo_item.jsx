@@ -14,18 +14,35 @@ var PhotoItem = React.createClass({
     })
     ClientActions.likePhoto(this.state.liked);
   },
+  heartClass: function() {
+    if (this.state.liked) {
+      return 'fa-heart'
+    } else {
+      return 'fa-heart-o'
+    }
+  },
   render: function() {
     return(
-      <article className='img-item' onClick={this.handleClick} onMouseOver={this.toggleViews}>
+      <article
+        className={'img-item liked-' + this.state.liked }
+        onClick={this.handleClick}
+        onMouseOver={this.toggleViews}>
         <img
           data-ratio={this.props.photo.width / this.props.photo.height}
           alt={this.props.photo.name}
           src={this.props.photo.image_url}
         />
+        <div className='view-count'>
+          {this.props.photo.times_viewed}
+        </div>
         <div className='img-desc'>
-          <span>{this.props.photo.name}</span>
-          <span>{this.props.photo.times_viewed}</span>
-          <span>{this.state.liked.toString()}</span>
+          <div className='img-name'>
+            {this.props.photo.name}
+          </div>
+          <div className='img-like'>
+            <i className={'fa ' + this.heartClass()}></i>
+            {}
+          </div>
         </div>
       </article>
     )

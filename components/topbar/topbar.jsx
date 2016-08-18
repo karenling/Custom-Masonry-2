@@ -20,7 +20,12 @@ var TopBar = React.createClass({
   },
   render: function() {
     return(
-      <div>{this.state.totalLikes}</div>
+      <div id='topbar'>
+        <span className='title'>// Twinkie</span>
+        <span className='total-likes'>
+          {this.state.totalLikes}
+        </span>
+      </div>
     )
   }
 });
