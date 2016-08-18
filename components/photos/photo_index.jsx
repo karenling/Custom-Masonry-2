@@ -16,7 +16,7 @@ var PhotoIndex = React.createClass({
   componentDidMount: function() {
     $(window).bind('resize', this.updateGrid)
     $(window).resize();
-    ClientActions.fetchPopularPhotos(PhotoStore.nextPage());
+    ClientActions.fetchPopularPhotos();
     this.listener = PhotoStore.addListener(this._onChange);
     this.bottomListener = this.detectBottom();
   },
@@ -39,9 +39,18 @@ var PhotoIndex = React.createClass({
   detectBottom: function() {
     $(window).scroll(function() {
       if ($(window).scrollTop() + 60 > $(document).height() - $(window).height()) {
-        ClientActions.fetchPopularPhotos(PhotoStore.nextPage());
+        ClientActions.fetchPopularPhotos();
       }
     })
+  },
+  loader: function() {
+    if (PhotoStore.nextPage() <= PhotoStore.totalPages()) {
+      return(
+        <div className='loader'>
+          <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+      )
+    }
   },
   render: function() {
     return(
@@ -56,9 +65,7 @@ var PhotoIndex = React.createClass({
             )
           }.bind(this))}
         </div>
-        <div className='loader'>
-          <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-        </div>
+        {this.loader()}
       </div>
     )
   }

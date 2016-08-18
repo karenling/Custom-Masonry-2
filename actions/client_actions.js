@@ -4,8 +4,8 @@ var ServerActions = require('./server_actions');
 
 var ClientActions = {
   fetchPopularPhotos: function(page) {
-    if (page <= PhotoStore.totalPages()) {
-      ApiUtil.fetchPopularPhotos(page);
+    if (PhotoStore.nextPage() <= PhotoStore.totalPages()) {
+      ApiUtil.fetchPopularPhotos(PhotoStore.nextPage());
     }
   },
   likePhoto: function(value) {
