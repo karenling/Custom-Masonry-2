@@ -1,13 +1,12 @@
 var $ = require('jquery');
 
-var masonry = function(selector, padding = 10) {
+var masonry = function(selector, padding) {
   containerWidth = $(selector).width() - padding;
-  $(selector).css('margin', padding/2)
-  var height = containerWidth/3;
+  var height;
   var currentImages = [];
   var currentRow = 0;
   $('.img-item img').each(function(idx, img) {
-    var ratio = $(img).width()/$(img).height();
+    var ratio = $(img).data('ratio');
     currentImages.push(img);
     currentRow += ratio;
     if (currentRow >= ratioMax()) {
@@ -23,7 +22,9 @@ var masonry = function(selector, padding = 10) {
 
 var resizeRow = function(currentImages, currentRow, height, padding) {
   currentImages.forEach(function(currentImg) {
-    $(currentImg).height(height);
+    var ratio = $(currentImg).data('ratio');
+    $(currentImg).parent().width(height * ratio);
+    $(currentImg).parent().height(height);
     $(currentImg).parent().css('margin', padding/2);
   });
 };
@@ -40,5 +41,6 @@ var ratioMax = function() {
 
 KarenMasonry = function(selector, padding) {
   var containerWidth = $(selector).width();
+  $(selector).css('margin', padding/2);
   masonry(selector, padding);
 };

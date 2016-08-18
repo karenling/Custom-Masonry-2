@@ -14,6 +14,8 @@ var PhotoIndex = React.createClass({
     })
   },
   componentDidMount: function() {
+    $(window).bind('resize', this.updateGrid)
+    $(window).resize();
     ClientActions.fetchPopularPhotos(PhotoStore.nextPage());
     this.listener = PhotoStore.addListener(this._onChange);
     this.bottomListener = this.detectBottom();
@@ -21,14 +23,13 @@ var PhotoIndex = React.createClass({
   componentWillUnmount: function() {
     this.listener.remove();
     this.bottomListener.remove();
+    $(window).unbind('resize', this.updateGrid)
   },
   componentDidUpdate: function() {
-    setTimeout(function() {
-      $(window).resize(function() {
-        KarenMasonry('#react-block')
-      })
-      $(window).resize();
-    },2000)
+    this.updateGrid();
+  },
+  updateGrid: function() {
+    KarenMasonry('#react-block', 10)
   },
   _onChange: function() {
     this.setState({
@@ -44,18 +45,15 @@ var PhotoIndex = React.createClass({
   },
   render: function() {
     return(
-      <div>
-        <TopBar/>
-        <div className='karen-masonry'>
-          {this.state.photos.map(function(photo) {
-            return(
-              <PhotoItem
-                key={photo.id}
-                photo={photo}
-              />
-            )
-          }.bind(this))}
-        </div>
+      <div className='karen-masonry'>
+        {this.state.photos.map(function(photo) {
+          return(
+            <PhotoItem
+              key={photo.id}
+              photo={photo}
+            />
+          )
+        }.bind(this))}
       </div>
     )
   }

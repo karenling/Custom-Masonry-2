@@ -16,9 +16,9 @@ var PhotoItem = React.createClass({
   },
   render: function() {
     return(
-      <article className='img-item' onClick={this.handleClick}>
+      <article className='img-item' onClick={this.handleClick} onMouseOver={this.toggleViews}>
         <img
-          height={this.props.height}
+          data-ratio={this.props.photo.width / this.props.photo.height}
           alt={this.props.photo.name}
           src={this.props.photo.image_url}
         />
