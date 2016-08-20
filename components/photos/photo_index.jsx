@@ -3,9 +3,9 @@ var PhotoStore = require('../../stores/photo_store');
 var ClientActions = require('../../actions/client_actions');
 var PhotoItem = require('./photo_item');
 var TopBar = require('../topbar/topbar');
+var $ = require('jquery');
 require('../../others/karen_masonry');
 
-var $ = require('jquery');
 
 var PhotoIndex = React.createClass({
   getInitialState: function() {

@@ -1,46 +1,59 @@
 var $ = require('jquery');
+var imagesLoaded = require('imagesloaded');
+imagesLoaded.makeJQueryPlugin( $ );
 
 var masonry = function(selector, padding) {
-  containerWidth = $(selector).width() - padding;
-  var height;
-  var currentImages = [];
-  var currentRow = 0;
-  $('.img-item img').each(function(idx, img) {
-    var ratio = $(img).data('ratio');
-    currentImages.push(img);
-    currentRow += ratio;
-    if (currentRow >= ratioMax()) {
-      var totalMargins = (currentImages.length - 1) * padding;
-      height = (containerWidth - totalMargins)/currentRow;
-      resizeRow(currentImages, currentRow, height, padding);
-      currentImages = [];
-      currentRow = 0;
+  $(selector + '> div').height('');
+  containerWidth = $(selector).width();
+  var currentDivs = [];
+  var currentRowRatio = 0;
+  var positions = [];
+  var ratioMaxx = getRatioMax();
+  var totalMargins = (ratioMaxx + 1) * padding;
+  var width = (containerWidth - totalMargins)/ratioMaxx;
+  $(selector + '> div').width(width);
+  for(i=0; i<ratioMaxx; i++) {
+    positions.push(padding);
+  }
+  $('.img-item').each(function(idx, div) {
+    currentDivs.push(div);
+    if (currentDivs.length >= ratioMaxx) {
+      positions = resizeRow(currentDivs, width, positions, selector, padding);
+      currentDivs = [];
+      currentRowRatio = 0;
     }
   });
-  resizeRow(currentImages, currentRow, height, padding);
+  resizeRow(currentDivs, width, positions, selector, padding);
 };
 
-var resizeRow = function(currentImages, currentRow, height, padding) {
-  currentImages.forEach(function(currentImg) {
-    var ratio = $(currentImg).data('ratio');
-    $(currentImg).parent().width(height * ratio);
-    $(currentImg).parent().height(height);
-    $(currentImg).parent().css('padding', padding/2);
+var resizeRow = function(currentDivs, width, positions, selector, padding) {
+  var newPositions = [];
+  currentDivs.forEach(function(currentDiv, idx) {
+    var ratio = $(currentDiv).height() / $(currentDiv).width();
+    var height =  width * ratio;
+    $(currentDiv).width(width);
+    $(currentDiv).height(height);
+    $(currentDiv).css('top', positions[idx]);
+    $(currentDiv).css('left', idx * width + padding*(idx+1));
+    newPositions.push(height + positions[idx] + padding);
   });
+  $(selector).height(Math.max.apply(null, newPositions));
+  return newPositions;
 };
 
-var ratioMax = function() {
-  if (containerWidth < 500) {
-    return 0;
-  } else if (containerWidth < 800) {
-    return 3;
+var getRatioMax = function() {
+  if (containerWidth < 768) {
+    return 1;
+  } else if (containerWidth < 992) {
+    return 2;
   } else {
-    return 5;
+    return 4;
   }
 };
 
 KarenMasonry = function(selector, padding) {
-  var containerWidth = $(selector).width();
-  $(selector).css('padding', padding/2);
-  masonry(selector, padding);
+  $(selector).css('position', 'relative');
+  $('#karen-masonry').imagesLoaded( function() {
+    masonry(selector, padding);
+  });
 };
