@@ -1,5 +1,6 @@
 body {
   font: 11px 'Open Sans', sans-serif;
+  color: #505050;
   margin: 0;
 }
 #topbar {
@@ -34,7 +35,7 @@ body {
 #topbar .total-likes {
   font-weight: 600;
   line-height: 0px;
-  background-color: red;
+  background-color: #ff7260;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -58,6 +59,8 @@ body {
 .img-item {
   position: absolute;
   cursor: pointer;
+  width: 0;
+  overflow: hidden;
   opacity:0;
   filter: alpha(opacity=0);
   -webkit-transition: opacity 2s ease-in;
@@ -67,16 +70,17 @@ body {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-
 .img-item .item-inner-wrapper {
   padding: 10px;
   border-radius: 5px;
+  -webkit-transition: background-color 200ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 .img-item .item-inner-wrapper:hover {
-  background-color: #eee;
+  background-color: #dff6f5;
 }
 .img-item.liked-true .item-inner-wrapper {
-  background-color: orange;
+  background-color: #c1e6e5;
 }
 .img-item img {
   display: block;
@@ -86,7 +90,6 @@ body {
 }
 .img-desc {
   position: relative;
-  color: #222;
   line-height: 20px;
 }
 .img-desc:after {
@@ -107,12 +110,10 @@ body {
   font-size: 20px;
 }
 .img-like .fa-heart {
-  color: red;
-  -webkit-transition: color 200ms ease-in;
+  color: #ff7260;
 }
 .img-like .fa-heart-o {
-  color: red;
-  -webkit-transition: color 200ms ease-in;
+  color: #ff7260;
 }
 .view-count {
   background: -webkit-linear-gradient(top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
@@ -133,6 +134,7 @@ body {
   border-top-right-radius: 5px;
   filter: alpha(opacity=0);
   -webkit-transition: opacity 200ms ease-in;
+  transition: opacity 200ms ease-in;
 }
 .img-item:hover .view-count {
   opacity: 1;

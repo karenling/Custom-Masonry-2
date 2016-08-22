@@ -21481,7 +21481,7 @@
 	var PhotoItem = __webpack_require__(204);
 	var TopBar = __webpack_require__(205);
 	var $ = __webpack_require__(201);
-	__webpack_require__(209);
+	__webpack_require__(207);
 	
 	var PhotoIndex = React.createClass({
 	  displayName: 'PhotoIndex',
@@ -38694,6 +38694,74 @@
 /* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var $ = __webpack_require__(201);
+	var imagesLoaded = __webpack_require__(208);
+	imagesLoaded.makeJQueryPlugin($);
+	
+	var Masonry = function (selector, padding) {
+	  this.$selector = $(selector);
+	  this.padding = padding;
+	  this.setupContainer();
+	  this.resize();
+	};
+	
+	Masonry.prototype.setupContainer = function () {
+	  this.$selector.css('position', 'relative');
+	  this.containerWidth = this.$selector.width();
+	  var columns = this.getColumns(this.containerWidth);
+	  var totalMargins = (columns + 1) * this.padding;
+	  this.itemWidth = (this.containerWidth - totalMargins) / columns;
+	  this.$selector.find('> div').height('');
+	  this.$selector.find('> div').width(this.itemWidth);
+	  this.positions = [];
+	  for (i = 0; i < columns; i++) {
+	    this.positions.push(this.padding);
+	  }
+	};
+	
+	Masonry.prototype.resize = function () {
+	  this.$selector.find('> div').each(function (idx, item) {
+	    this.handleResize(idx, item);
+	    this.updateContainerHeight();
+	  }.bind(this));
+	};
+	
+	Masonry.prototype.handleResize = function (idx, item) {
+	  var minPos = Math.min.apply(null, this.positions);
+	  var minIdx = this.positions.indexOf(minPos);
+	  var ratio = $(item).height() / $(item).width();
+	  var height = this.itemWidth * ratio;
+	  $(item).css('top', minPos);
+	  $(item).css('left', minIdx * this.itemWidth + this.padding * (minIdx + 1));
+	  this.positions[minIdx] += height + this.padding;
+	};
+	
+	Masonry.prototype.updateContainerHeight = function () {
+	  this.$selector.height(Math.max.apply(null, this.positions));
+	};
+	
+	Masonry.prototype.getColumns = function () {
+	  if (this.containerWidth < 544) {
+	    return 1;
+	  } else if (this.containerWidth < 768) {
+	    return 2;
+	  } else if (this.containerWidth < 992) {
+	    return 3;
+	  } else {
+	    return 4;
+	  }
+	};
+	
+	KarenMasonry = function (selector, padding) {
+	  $(selector).imagesLoaded(function () {
+	    new Masonry(selector, padding);
+	  });
+	};
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * imagesLoaded v4.1.0
 	 * JavaScript is all like "You images are done yet or what?"
@@ -38708,7 +38776,7 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(208)
+	      __webpack_require__(209)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
 	      return factory( window, EvEmitter );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -39067,7 +39135,7 @@
 
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -39180,70 +39248,6 @@
 	
 	}));
 
-
-/***/ },
-/* 209 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(201);
-	var imagesLoaded = __webpack_require__(207);
-	imagesLoaded.makeJQueryPlugin($);
-	
-	var masonry = function (selector, padding) {
-	  $(selector + '> div').height('');
-	  containerWidth = $(selector).width();
-	  var currentDivs = [];
-	  var currentRowRatio = 0;
-	  var positions = [];
-	  var ratioMaxx = getRatioMax();
-	  var totalMargins = (ratioMaxx + 1) * padding;
-	  var width = (containerWidth - totalMargins) / ratioMaxx;
-	  $(selector + '> div').width(width);
-	  for (i = 0; i < ratioMaxx; i++) {
-	    positions.push(padding);
-	  }
-	  $('.img-item').each(function (idx, div) {
-	    currentDivs.push(div);
-	    if (currentDivs.length >= ratioMaxx) {
-	      positions = resizeRow(currentDivs, width, positions, selector, padding);
-	      currentDivs = [];
-	      currentRowRatio = 0;
-	    }
-	  });
-	  resizeRow(currentDivs, width, positions, selector, padding);
-	};
-	
-	var resizeRow = function (currentDivs, width, positions, selector, padding) {
-	  var newPositions = [];
-	  currentDivs.forEach(function (currentDiv, idx) {
-	    var ratio = $(currentDiv).height() / $(currentDiv).width();
-	    var height = width * ratio;
-	    $(currentDiv).width(width);
-	    $(currentDiv).height(height);
-	    $(currentDiv).css('top', positions[idx]);
-	    $(currentDiv).css('left', idx * width + padding * (idx + 1));
-	    newPositions.push(height + positions[idx] + padding);
-	  });
-	  $(selector).height(Math.max.apply(null, newPositions));
-	  return newPositions;
-	};
-	
-	var getRatioMax = function () {
-	  if (containerWidth < 768) {
-	    return 1;
-	  } else if (containerWidth < 992) {
-	    return 2;
-	  } else {
-	    return 4;
-	  }
-	};
-	
-	KarenMasonry = function (selector, padding) {
-	  $(selector).css('position', 'relative');
-	  $('#karen-masonry').imagesLoaded(function () {
-	    masonry(selector, padding);
-	  });
-	};
 
 /***/ }
 /******/ ]);
